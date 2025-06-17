@@ -6,6 +6,7 @@
     <title>SANIYA K</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <link rel="icon" href="saniya.jpg">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -757,7 +758,7 @@
                     <a href="saniyak.pdf" download class="btn btn2">Download CV</a>
                 </div>
                 <div class="contact-right">
-                    <form onsubmit="handleSubmit(event)">
+                    <form id="contactform" onsubmit=" return thandleSubmit(event)">
                         <input type="text" name="name" placeholder="Your Name" required>
                         <input type="email" name="email" placeholder="Your Email" required>
                         <textarea name="message" rows="6" placeholder="Your Message" required></textarea>
@@ -846,6 +847,45 @@
      
         document.querySelectorAll('#about, #services, #portfolio, #contact').forEach(section => {
             observer.observe(section);
+        });
+    </script>
+    <!-- MAIL -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            emailjs.init("b04Aen_AZ_nJPC4r3");
+        })();
+    </script>
+    <!-- MAIL-SEND -->
+    <script>
+        document.getElementById("contactform").addEventListener("submit", function (e) {
+            e.preventDefault(); // Prevent default form submission
+            
+           
+
+            const name = this.name.value.trim();
+            const email = this.email.value.trim();
+            const message = this.message.value.trim();
+
+            if (!name || !email || !message) {
+                alert("❌ Please fill out all fields.");
+                return;
+            }
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("❌ Please enter a valid email address.");
+                return;
+            }
+
+            emailjs.sendForm("service_omaeskx", "template_zgut1k9", this)
+                .then(function () {
+                    alert("✅ Message sent successfully!");
+                }, function (error) {
+                    alert("❌ Failed to send message. Error: " + error.text);
+                });
+
+            this.reset();
         });
     </script>
 </body>
